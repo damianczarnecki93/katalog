@@ -1,7 +1,7 @@
-const connectDB = require('./db');
-const { Product } = require('./models');
+import connectDB from './db.js';
+import { Product } from './models.js';
 
-exports.handler = async (event) => {
+export const handler = async (event) => {
   try {
     await connectDB();
     const { indeks } = event.queryStringParameters || {};

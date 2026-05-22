@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const UserSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
@@ -22,8 +22,6 @@ const CatalogSchema = new mongoose.Schema({
   isChristmas: { type: Boolean, default: false },
 }, { timestamps: true });
 
-module.exports = {
-  User: mongoose.models.User || mongoose.model('User', UserSchema),
-  Product: mongoose.models.Product || mongoose.model('Product', ProductSchema),
-  Catalog: mongoose.models.Catalog || mongoose.model('Catalog', CatalogSchema),
-};
+export const User = mongoose.models.User || mongoose.model('User', UserSchema);
+export const Product = mongoose.models.Product || mongoose.model('Product', ProductSchema);
+export const Catalog = mongoose.models.Catalog || mongoose.model('Catalog', CatalogSchema);

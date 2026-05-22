@@ -1,7 +1,7 @@
-const connectDB = require('./db');
-const { Catalog } = require('./models');
+import connectDB from './db.js';
+import { Catalog } from './models.js';
 
-exports.handler = async (event) => {
+export const handler = async (event) => {
   try {
     await connectDB();
     const catalogs = await Catalog.find({});
