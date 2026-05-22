@@ -1,0 +1,54 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brunnen-blue: #004b97;
+}
+
+:root {
+  --brunnen-blue: #004b97;
+  --light-gray: #f4f4f4;
+  --text-color: #333;
+  --whatsapp-green: #25D366;
+  --facebook-blue: #1877F2;
+}
+
+body {
+  @apply bg-slate-100 text-slate-900 font-sans;
+}
+
+.pdf-canvas-container {
+  @apply relative mb-6 shadow-2xl transition-transform duration-200;
+}
+
+.textLayer {
+  @apply opacity-15 transition-opacity duration-300;
+}
+
+.textLayer:hover {
+  @apply opacity-45;
+}
+
+.textLayer span {
+  @apply cursor-pointer;
+}
+
+.textLayer span:hover {
+  @apply bg-blue-600 text-white rounded-sm;
+}
+
+.textLayer span.matched-product {
+  @apply border-b-2 border-dashed border-emerald-500 bg-emerald-500/15 transition-all duration-200;
+}
+
+.textLayer span.matched-product:hover {
+  @apply bg-emerald-500 text-white;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-slate-300 rounded-full;
+}
