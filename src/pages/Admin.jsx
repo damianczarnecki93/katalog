@@ -19,29 +19,47 @@ const Admin = () => {
       delimiter: ";",
       complete: async (results) => {
         try {
+          const findVal = (obj, keys) => {
+            const foundKey = Object.keys(obj).find(k => keys.includes(k.toLowerCase().trim()));
+            return foundKey ? obj[foundKey] : undefined;
+          };
+
           const data = results.data.map(item => {
               if (type === 'products') {
+                  const indeks = findVal(item, ['indeks', 'index', 'kod']);
+                  const cenaRaw = findVal(item, ['cena', 'price', 'wartosc']) || "0";
+
+                  if (!indeks) return null;
+
                   return {
-                      indeks: item.Indeks,
-                      ean: item.EAN,
-                      nazwa: item.Nazwa,
-                      cena: parseFloat((item.Cena || "0").toString().replace(',', '.'))
+                      indeks: indeks.toString().trim(),
+                      ean: findVal(item, ['ean', 'kod kreskowy']) || '',
+                      nazwa: findVal(item, ['nazwa', 'name', 'produkt']) || 'Produkt bez nazwy',
+                      cena: parseFloat(cenaRaw.toString().replace(',', '.')) || 0
                   };
               }
               if (type === 'users') {
+                  const email = findVal(item, ['email', 'login', 'uzytkownik']);
+                  const password = findVal(item, ['haslo', 'password', 'pass']);
+
+                  if (!email || !password) return null;
+
                   return {
-                      email: item.Email,
-                      password: item.Haslo,
-                      name: item.Nazwa,
-                      role: item.Rola || 'user'
+                      email: email.toString().trim(),
+                      password: password.toString().trim(),
+                      name: findVal(item, ['nazwa', 'name', 'imie']) || email,
+                      role: findVal(item, ['rola', 'role']) || 'user'
                   };
               }
               return item;
-          });
+          }).filter(i => i !== null);
+
+          if (data.length === 0) throw new Error("Nie znaleziono poprawnych danych w pliku CSV.");
+
           await adminAction('import', type, data);
-          setStatus({ type: 'success', message: `Import zakończony sukcesem.` });
+          setStatus({ type: 'success', message: `Import zakończony sukcesem. Zaimportowano ${data.length} pozycji.` });
         } catch (err) {
-          setStatus({ type: 'error', message: 'Błąd importu.' });
+          setStatus({ type: 'error', message: `Błąd importu: ${err.message || 'Nieznany błąd'}` });
         } finally {
           setLoading(false);
         }

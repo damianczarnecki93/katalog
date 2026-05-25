@@ -35,9 +35,18 @@ export const handler = async (event) => {
         return { statusCode: 200, body: JSON.stringify({ message: 'Użytkownicy zaimportowani' }) };
       }
     }
-    if (action === 'save_catalog') {
+    if (action === 'add_catalog') {
       await Catalog.create(data);
-      return { statusCode: 200, body: 'Katalog zapisany' };
+      return { statusCode: 200, body: 'Katalog dodany' };
+    }
+    if (action === 'update_catalog') {
+      const { _id, ...updateData } = data;
+      await Catalog.findByIdAndUpdate(_id, updateData);
+      return { statusCode: 200, body: 'Katalog zaktualizowany' };
+    }
+    if (action === 'delete_catalog') {
+      await Catalog.findByIdAndDelete(data.id);
+      return { statusCode: 200, body: 'Katalog usunięty' };
     }
     return { statusCode: 400, body: 'Invalid action' };
   } catch (error) {

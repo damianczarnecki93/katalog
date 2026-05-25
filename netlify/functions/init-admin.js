@@ -16,9 +16,9 @@ export const handler = async (event) => {
       };
     }
 
-    const hashedPassword = await bcrypt.hash('admin123', 10);
+    const hashedPassword = await bcrypt.hash('admin', 10);
     await User.create({
-      email: 'admin@e-dekor.pl',
+      email: 'admin',
       password: hashedPassword,
       name: 'Administrator',
       role: 'admin'
@@ -26,7 +26,7 @@ export const handler = async (event) => {
 
     return { 
       statusCode: 200, 
-      body: JSON.stringify({ message: "SUKCES! Stworzono konto: admin@e-dekor.pl z hasłem: admin123. Możesz się teraz zalogować." })
+      body: JSON.stringify({ message: "SUKCES! Stworzono konto: admin z hasłem: admin. Możesz się teraz zalogować." })
     };
   } catch (error) {
     console.error("Błąd init-admin:", error);
