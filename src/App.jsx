@@ -21,8 +21,8 @@ function App() {
         <Router>
           <Routes>
             <Route path="/login" element={<Login />} />
-            <Route path="/" element={<PrivateRoute><Home /></PrivateRoute>} />
-            <Route path="/reader/:catalogId" element={<PrivateRoute><Reader /></PrivateRoute>} />
+            <Route path="/" element={<Home />} />
+            <Route path="/reader/:catalogId" element={<Reader />} />
             <Route path="/admin" element={<PrivateRoute adminOnly={true}><Admin /></PrivateRoute>} />
           </Routes>
         </Router>
